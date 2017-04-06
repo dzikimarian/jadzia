@@ -1,17 +1,15 @@
 package com.example.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Created by micha on 06.04.2017.
  */
 
 @Getter
-@Setter
-@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class FoodItem {
     private String name;
-    private String price;
+    private Integer price;
 }
