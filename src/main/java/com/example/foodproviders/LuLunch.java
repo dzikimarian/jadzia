@@ -5,9 +5,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,14 +15,16 @@ import java.util.stream.Collectors;
 /**
  * Created by micha on 06.04.2017.
  */
-public class LuLunch {
+
+@Service
+public class LuLunch implements FoodProvider{
 
     public List<FoodItem> extractMenuFromDOM(Document doc)
     {
         Elements basicMenu = doc.select("table.table tr");
 
         return basicMenu.stream()
-                .map(tr -> getFoodItem(tr))
+                .map(this::getFoodItem)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -41,5 +43,25 @@ public class LuLunch {
 
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<FoodItem> getMenu()
+    {
+        Document doc = null;
+
+        try {
+            doc = Jsoup.connect("http://www.lublin-lunch.pl/").get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return this.extractMenuFromDOM(doc);
+    }
+
+    @Override
+    public Boolean shouldOrder()
+    {
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.foodproviders;
 
 import com.example.entities.FoodItem;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
 /**
  * Created by micha on 06.04.2017.
  */
+@Slf4j
 public class LuLunchTest {
     @Test
     public void extractMenuFromDOM_parses_document_correctly() throws Exception {
@@ -32,7 +34,7 @@ public class LuLunchTest {
 
         List<FoodItem> menu = lu.extractMenuFromDOM(doc);
 
-        System.out.println(menu.get(4).toString());
+        log.debug(menu.get(4).toString());
 
         assertNotNull(menu);
     }
